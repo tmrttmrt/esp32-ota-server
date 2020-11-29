@@ -8,4 +8,6 @@ PROJECT_NAME := app-ota-template
 include $(IDF_PATH)/make/project.mk
 
 ota: app
-	curl ${ESP32_IP}:8032 --data-binary @- < build/$(PROJECT_NAME).bin
+	echo "factory" | curl ${ESP32_IP}:8032  -H "Content-Type: text/parameters" --data-binary @- | true 
+	sleep 3 
+	curl ${ESP32_IP}:8032 -H "Content-Type: application/octet-stream" --data-binary @- < build/$(PROJECT_NAME).bin
